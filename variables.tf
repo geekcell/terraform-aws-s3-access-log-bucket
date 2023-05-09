@@ -58,3 +58,27 @@ variable "transitions" {
     storage_class = string
   }))
 }
+
+variable "versioning" {
+  default     = "Enabled"
+  description = "Enables versioning of objects in the bucket."
+  type        = string
+}
+
+variable "mfa_delete" {
+  default     = "Disabled"
+  description = "Specifies whether MFA delete is enabled in the bucket."
+  type        = string
+}
+
+variable "mfa" {
+  default     = null
+  description = "MFA device ARN including a TOTP token to enable MFA delete."
+  type        = string
+}
+
+variable "deny_non_secure_transport" {
+  default     = true
+  description = "Whether to attach a policy to the bucket to deny all non-SSL requests."
+  type        = bool
+}
