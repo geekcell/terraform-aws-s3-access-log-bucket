@@ -101,6 +101,8 @@ resource "aws_s3_bucket_metric" "main" {
 }
 
 resource "aws_s3_bucket_ownership_controls" "main" {
+  count = var.allow_cloudfront_write_access_logs ? 1 : 0
+
   bucket = aws_s3_bucket.main.id
 
   rule {
@@ -135,4 +137,6 @@ resource "aws_s3_bucket_acl" "main" {
       permission = "FULL_CONTROL"
     }
   }
+
+  depends_on = [aws_s3_bucket_ownership_controls.main]
 }
