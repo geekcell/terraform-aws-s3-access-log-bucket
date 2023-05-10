@@ -100,6 +100,14 @@ resource "aws_s3_bucket_metric" "main" {
   name   = "EntireBucket"
 }
 
+resource "aws_s3_bucket_ownership_controls" "main" {
+  bucket = aws_s3_bucket.main.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
 resource "aws_s3_bucket_acl" "main" {
   count = var.allow_cloudfront_write_access_logs ? 1 : 0
 
