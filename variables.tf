@@ -31,7 +31,7 @@ variable "noncurrent_version_transitions" {
     }
   ]
   description = "Transition to another storage class for noncurrent_versions."
-  type        = list(object({
+  type = list(object({
     noncurrent_days = number
     storage_class   = string
   }))
@@ -53,7 +53,7 @@ variable "transitions" {
     }
   ]
   description = "Transition to another storage class."
-  type        = list(object({
+  type = list(object({
     days          = number
     storage_class = string
   }))

@@ -61,6 +61,8 @@ tracking activity in your ALB or Cognito.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_allow_cloudfront_write_access_logs"></a> [allow\_cloudfront\_write\_access\_logs](#input\_allow\_cloudfront\_write\_access\_logs) | Enable ACL for CloudFront to write access logs. | `bool` | `false` | no |
+| <a name="input_allow_elb_write_access_logs"></a> [allow\_elb\_write\_access\_logs](#input\_allow\_elb\_write\_access\_logs) | Attach a policy to allow Elastic Load Balancing to write access logs. | `bool` | `true` | no |
 | <a name="input_deny_non_secure_transport"></a> [deny\_non\_secure\_transport](#input\_deny\_non\_secure\_transport) | Whether to attach a policy to the bucket to deny all non-SSL requests. | `bool` | `true` | no |
 | <a name="input_expiration"></a> [expiration](#input\_expiration) | The number of days after which to expunge the objects. | `number` | `365` | no |
 | <a name="input_mfa"></a> [mfa](#input\_mfa) | MFA device ARN including a TOTP token to enable MFA delete. | `string` | `null` | no |
@@ -77,6 +79,7 @@ tracking activity in your ALB or Cognito.
 | Name | Description |
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | The arn of the bucket. |
+| <a name="output_domain_name"></a> [domain\_name](#output\_domain\_name) | The domain name of the bucket. |
 | <a name="output_id"></a> [id](#output\_id) | The id of the bucket. |
 
 ## Providers
@@ -88,22 +91,37 @@ tracking activity in your ALB or Cognito.
 ## Resources
 
 - resource.aws_s3_bucket.main (main.tf#21)
-- resource.aws_s3_bucket_lifecycle_configuration.main (main.tf#62)
-- resource.aws_s3_bucket_metric.main (main.tf#95)
+- resource.aws_s3_bucket_acl.main (main.tf#113)
+- resource.aws_s3_bucket_lifecycle_configuration.main (main.tf#63)
+- resource.aws_s3_bucket_metric.main (main.tf#98)
+- resource.aws_s3_bucket_ownership_controls.main (main.tf#103)
 - resource.aws_s3_bucket_policy.main (main.tf#37)
-- resource.aws_s3_bucket_public_access_block.main (main.tf#42)
-- resource.aws_s3_bucket_server_side_encryption_configuration.main (main.tf#51)
+- resource.aws_s3_bucket_public_access_block.main (main.tf#43)
+- resource.aws_s3_bucket_server_side_encryption_configuration.main (main.tf#52)
 - resource.aws_s3_bucket_versioning.main (main.tf#27)
-- data source.aws_elb_service_account.main (data.tf#1)
-- data source.aws_iam_policy_document.main (data.tf#3)
+- data source.aws_canonical_user_id.main (data.tf#1)
+- data source.aws_elb_service_account.main (data.tf#2)
+- data source.aws_iam_policy_document.main (data.tf#4)
 
 # Examples
-### Basic Example
+### ALB Logs
 ```hcl
-module "basic-example" {
+module "alb_logs" {
   source = "../../"
 
-  name = "my-access-logs"
+  name = "my-alb-access-logs-s3"
+}
+```
+
+### Cloudfront Logs
+```hcl
+module "cloudfront_logs" {
+  source = "../../"
+
+  name = "my-cloudfront-access-logs-s3"
+
+  allow_cloudfront_write_access_logs = true
+  allow_elb_write_access_logs        = false
 }
 ```
 <!-- END_TF_DOCS -->

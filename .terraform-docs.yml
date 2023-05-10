@@ -24,9 +24,14 @@ content: |-
   {{- end }}
 
   # Examples
-    ### Basic Example
+    ### ALB Logs
     ```hcl
-    {{ include "examples/basic-example/main.tf" }}
+    {{ include "examples/alb-access-logs/main.tf" }}
+    ```
+
+    ### Cloudfront Logs
+    ```hcl
+    {{ include "examples/cloudfront-access-logs/main.tf" }}
     ```
 
 output:
