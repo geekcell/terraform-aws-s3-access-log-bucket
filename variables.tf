@@ -31,7 +31,7 @@ variable "noncurrent_version_transitions" {
     }
   ]
   description = "Transition to another storage class for noncurrent_versions."
-  type = list(object({
+  type        = list(object({
     noncurrent_days = number
     storage_class   = string
   }))
@@ -53,7 +53,7 @@ variable "transitions" {
     }
   ]
   description = "Transition to another storage class."
-  type = list(object({
+  type        = list(object({
     days          = number
     storage_class = string
   }))
@@ -80,5 +80,11 @@ variable "mfa" {
 variable "deny_non_secure_transport" {
   default     = true
   description = "Whether to attach a policy to the bucket to deny all non-SSL requests."
+  type        = bool
+}
+
+variable "allow_elb_write_access_logs" {
+  description = "Attach a policy to allow Elastic Load Balancing to write access logs."
+  default     = true
   type        = bool
 }

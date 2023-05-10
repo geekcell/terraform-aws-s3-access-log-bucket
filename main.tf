@@ -36,6 +36,7 @@ resource "aws_s3_bucket_versioning" "main" {
 
 resource "aws_s3_bucket_policy" "main" {
   bucket = aws_s3_bucket.main.id
+
   policy = data.aws_iam_policy_document.main.json
 }
 
@@ -68,6 +69,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "main" {
 
     dynamic "transition" {
       for_each = coalesce(var.transitions, [])
+
       content {
         days          = transition.value.days
         storage_class = transition.value.storage_class
@@ -76,6 +78,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "main" {
 
     dynamic "noncurrent_version_transition" {
       for_each = coalesce(var.noncurrent_version_transitions, [])
+
       content {
         noncurrent_days = noncurrent_version_transition.value.noncurrent_days
         storage_class   = noncurrent_version_transition.value.storage_class
