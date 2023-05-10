@@ -1,3 +1,4 @@
+data "aws_canonical_user_id" "main" {}
 data "aws_elb_service_account" "main" {}
 
 data "aws_iam_policy_document" "main" {

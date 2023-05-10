@@ -88,3 +88,9 @@ variable "allow_elb_write_access_logs" {
   default     = true
   type        = bool
 }
+
+variable "allow_cloudfront_write_access_logs" {
+  description = "Enable ACL for CloudFront to write access logs."
+  default     = false
+  type        = bool
+}

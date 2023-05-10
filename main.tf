@@ -99,3 +99,32 @@ resource "aws_s3_bucket_metric" "main" {
   bucket = aws_s3_bucket.main.bucket
   name   = "EntireBucket"
 }
+
+resource "aws_s3_bucket_acl" "main" {
+  count = var.allow_cloudfront_write_access_logs ? 1 : 0
+
+  bucket = aws_s3_bucket.main.bucket
+
+  access_control_policy {
+    owner {
+      id = data.aws_canonical_user_id.main.id
+    }
+
+    grant {
+      grantee {
+        id   = data.aws_canonical_user_id.main.id
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
+    }
+
+    grant {
+      # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#AccessLogsBucketAndFileOwnership
+      grantee {
+        id   = "c4c1ede66af53448b93c283ce9448c4ba468c9432aa01d700d3878632f77d2d0"
+        type = "CanonicalUser"
+      }
+      permission = "FULL_CONTROL"
+    }
+  }
+}
